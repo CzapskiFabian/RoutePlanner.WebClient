@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  routeplanner.webclient:
+    image: routeplanner.webclient
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
