@@ -1,6 +1,6 @@
 sudo: required
 language: csharp
 solution: RoutePlanner.WebClient.sln
-dotnet: 1.1
+dotnet: 1.0.1
 services:
   - docker
