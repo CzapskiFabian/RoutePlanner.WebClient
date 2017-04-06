@@ -1,3 +1,4 @@
+sudo: required
 language: csharp
 solution: RoutePlanner.WebClient.sln
 dotnet: 1.1
