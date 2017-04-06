@@ -1,7 +1,13 @@
-language: ruby
-rvm:
- - 2.2
- - jruby
- - rbx-2
-# uncomment and edit the following line if your project needs to run something other than `rake`:
-# script: bundle exec rspec spec
+language: csharp
+solution: RoutePlanner.WebClient.sln
+dotnet: 1.1
+services:
+  - docker
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      dotnet: 1.0.0-preview2-1-003177
+      mono: none
+      env: DOTNETCORE=1
