@@ -4,3 +4,8 @@ solution: RoutePlanner.WebClient.sln
 dotnet: 1.0.1
 services:
   - docker
+  
+before_install:
+    - docker build -t routeplanner.webclient .
+    - docker run -d -p 5000:5000 routeplanner.webclient
+    
