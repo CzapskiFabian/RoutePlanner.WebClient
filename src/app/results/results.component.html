@@ -1,0 +1,10 @@
+<h3>
+  Solution</h3>
+<hr>
+<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="11">
+  <sebm-google-map-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng">
+    <sebm-google-map-info-window>
+      <strong>{{m.name}}</strong>
+    </sebm-google-map-info-window>
+  </sebm-google-map-marker>
+</sebm-google-map>
