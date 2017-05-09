@@ -12,7 +12,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
   declarations: [
     AppComponent,
     HeaderComponent,
-    ResultsComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,

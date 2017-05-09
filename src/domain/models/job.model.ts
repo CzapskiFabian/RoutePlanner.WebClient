@@ -1,6 +1,7 @@
+import { ModelWithId } from './model-with-id.model';
 import { MarkerStatus } from './markerStatus.enum';
 import { LocationPoint } from './locationPoint.model';
-export class Job implements LocationPoint {
+export class Job implements LocationPoint, ModelWithId {
 
     lat: number;
     lng: number;

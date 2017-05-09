@@ -14,16 +14,12 @@ export class Dictionary<U> implements IDictionary<U> {
     private _keys: string[] = [];
     private _values: U[] = [];
     constructor(){
-    // constructor(init: { key: string; value: U; }[]) {
-
-        // for (var x = 0; x < init.length; x++) {
-        //     this[init[x].key] = init[x].value;
-        //     this._keys.push(init[x].key);
-        //     this._values.push(init[x].value);
-        // }
     }
 
     add(key: string, value: U) {
+        if(this.containsKey(key)){
+            throw new RangeError('duplicate key');
+        }
         this[key] = value;
         this._keys.push(key);
         this._values.push(value);

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const workspaceRoutes: Routes = [
-  { path: '', component: EngineersComponent},
+  { path: '', redirectTo:'/engineers', pathMatch: 'full'},
   { path: 'engineers', component: EngineersComponent},
   { path: 'jobs', component: JobsComponent},
   
