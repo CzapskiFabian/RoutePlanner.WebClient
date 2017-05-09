@@ -22,8 +22,7 @@ import { JobsComponent } from './jobs/jobs.component';
       WorkspaceComponent
   ],
   providers:[
-    JobsService,
-    EngineerService
+
   ]
 })
 export class WorkspaceModule {}

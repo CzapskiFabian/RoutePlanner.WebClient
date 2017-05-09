@@ -1,8 +1,11 @@
+import { Injectable } from '@angular/core';
 import { ItemListService } from './generic-item-list.service.';
 import { MarkerStatus } from '../models/markerStatus.enum';
 import { Job } from '../models/job.model';
 import { Dictionary } from '../helpers/dictionary.type';
 import { Subject } from 'rxjs/Rx';
+
+@Injectable()
 export class JobsService extends ItemListService<Job> {
     constructor() {
         super();

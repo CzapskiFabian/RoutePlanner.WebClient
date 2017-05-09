@@ -1,8 +1,11 @@
+import { Injectable } from '@angular/core';
 import { ItemListService } from './generic-item-list.service.';
 import { MarkerStatus } from '../models/markerStatus.enum';
 import { Dictionary } from '../helpers/dictionary.type';
 import { Engineer } from '../models/engineer.model';
 import { Subject } from 'rxjs/Rx';
+
+@Injectable()
 export class EngineerService extends ItemListService<Engineer> {
     constructor() {
         super();

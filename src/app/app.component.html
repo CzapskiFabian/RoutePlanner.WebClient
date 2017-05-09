@@ -9,7 +9,17 @@
     </div>
     <div class="col-md-6">
       <div class="sidebar-nav-fixed affix">
-        <app-results></app-results>
+        <div class="row">
+          <div class="col-xs-12">
+            <app-results></app-results>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
