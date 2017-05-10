@@ -7,7 +7,7 @@ export class CustomValidators {
             return null;
         } else {
             let message: string = ErrorCodesHandler.getErrorMessage(ErrorCode.LatitudeOutOfRange);
-            return { message : true };
+            return { message: true };
         }
     }
 
@@ -16,7 +16,7 @@ export class CustomValidators {
             return null;
         } else {
             let message: string = ErrorCodesHandler.getErrorMessage(ErrorCode.LongitudeOutOfRange);
-            return { message : true };
+            return { message: true };
         }
     }
 }

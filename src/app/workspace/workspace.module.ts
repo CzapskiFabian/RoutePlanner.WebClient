@@ -1,6 +1,4 @@
 import { WorkspaceRoutingModule } from './workspace-routing.module';
-import { JobsService } from '../../domain/services/jobs.service';
-import { EngineerService } from './../../domain/services/engineers.service';
 import { WorkspaceComponent } from './workspace.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -22,8 +20,7 @@ import { JobsComponent } from './jobs/jobs.component';
       WorkspaceComponent
   ],
   providers:[
-    JobsService,
-    EngineerService
+
   ]
 })
 export class WorkspaceModule {}

@@ -1,38 +1,36 @@
-<form [formGroup]="jobsForm">
-  <div formArrayName="jobs">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Id</th>
-          <th>Lat</th>
-          <th>Lng</th>
-          <th>Duration</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let job of getJobs().controls; index as i" [formGroupName]="i">
-          <td>
-          </td>
-          <td><input type="text" class="form-control" formControlName="id"></td>
-          <td><input type="number" class="form-control" name="lat" formControlName="lat"></td>
-          <td><input type="number" class="form-control" name="lat" formControlName="lng"></td>
-          <td><input type="number" class="form-control" name="duration" formControlName="duration"></td>
-          <td>
-            <button type="button" class="btn btn-danger" (click)="onDeleteJob(i)">X</button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button type="button" class="btn btn-primary" (click)="onAddJob()">+</button>
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Lat</th>
+        <th>Lng</th>
+        <th>Duration</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" formControlName="newId" id="newId" class="form-control"></td>
+        <td><input type="number" formControlName="newLat" id="newId" class="form-control"></td>
+        <td><input type="number" formControlName="newLng" id="newId" class="form-control"></td>
+        <td><input type="number" formControlName="newDuration" id="newDuration" class="form-control"></td>
+        <td>
+          <button type="submit" class="btn btn-primary" [disabled]="!form.valid">+</button>
+        </td>
+      </tr>
+      <tr *ngFor="let job of jobs; index as i">
+        <td>
+          {{ job.id }}
+        </td>
+        <td>{{ job.lat }}</td>
+        <td>{{ job.lng }}</td>
+        <td>{{ job.duration }}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="onDeleteJob(i)">X</button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
 </form>

@@ -1,6 +1,7 @@
+import { ModelWithId } from './model-with-id.model';
 import { MarkerStatus } from './markerStatus.enum';
 import { LocationPoint } from './locationPoint.model';
-export class Job implements LocationPoint {
+export class Engineer implements LocationPoint, ModelWithId {
 
     lat: number;
     lng: number;
@@ -8,7 +9,6 @@ export class Job implements LocationPoint {
     constructor(private _id: string,
         private _address: string,
         private _status: MarkerStatus,
-        private _duration: number,
          _lat:number,
          _lng:number) {
             this.lat=_lat;
@@ -37,14 +37,6 @@ export class Job implements LocationPoint {
 
     public set status(value: MarkerStatus) {
         this._status = value;
-    }
-
-    public get duration():number {
-        return this._duration;
-    }
-
-    public set duration(value: number) {
-        this._duration = value;
     }
 
 }

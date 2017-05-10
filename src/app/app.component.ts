@@ -1,3 +1,4 @@
+import { RequestService } from './shared/services/request.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  constructor(private _requestService: RequestService){}
+  onSubmit(){
+    this._requestService.submitData();
+  }
 }

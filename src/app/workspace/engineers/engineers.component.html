@@ -1,38 +1,33 @@
-<form [formGroup]="engineerForm">
-  <div formArrayName="engineers">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Id</th>
-          <th>Lat</th>
-          <th>Lng</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let engineer of getEngineers().controls; index as i" [formGroupName]="i">
-          <td>
-          </td>
-          <td>
-            {{ engineer.id }}
-          </td>
-          <td>{{ engineer.lat }}</td>
-          <td>{{ engineer.lng }}</td>
-          <td>
-            <button type="button" class="btn btn-danger" (click)="onDeleteEngineer(i)">X</button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button type="button" class="btn btn-primary" (click)="onAddEngineer()">+</button>
-          </td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Lat</th>
+        <th>Lng</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" formControlName="newId" id="newId" class="form-control"></td>
+        <td><input type="number" formControlName="newLat" id="newId" class="form-control"></td>
+        <td><input type="number" formControlName="newLng" id="newId" class="form-control"></td>
+        <td>
+          <button type="submit" class="btn btn-primary" [disabled]="!form.valid">+</button>
+        </td>
+      </tr>
+      <tr *ngFor="let engineer of engineers; index as i">
+        <td>
+          {{ engineer.id }}
+        </td>
+        <td>{{ engineer.lat }}</td>
+        <td>{{ engineer.lng }}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="onDeleteEngineer(i)">X</button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
 </form>
