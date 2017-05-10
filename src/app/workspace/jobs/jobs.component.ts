@@ -1,8 +1,8 @@
-import { ErrorCode, ErrorCodesHandler } from '../../../domain/errors/error-code';
-import { Job } from '../../../domain/models/job.model';
-import { MarkerStatus } from '../../../domain/models/markerStatus.enum';
-import { JobsService } from '../../../domain/services/jobs.service';
-import { CustomValidators } from './../../../domain/validators/custom.validators';
+import { ErrorCode, ErrorCodesHandler } from '../../shared/errors/error-code';
+import { MarkerStatus } from '../../shared/models/markerStatus.enum';
+import { CustomValidators } from '../../shared/validators/custom.validators';
+import { JobsService } from '../../shared/services/jobs.service';
+import { Job } from '../../shared/models/job.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 

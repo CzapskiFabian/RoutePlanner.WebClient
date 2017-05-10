@@ -1,10 +1,10 @@
-import { EngineerService } from '../domain/services/engineers.service';
-import { JobsService } from '../domain/services/jobs.service';
-import { RequestService } from './../domain/services/request.service';
-import { ServerService } from '../integration/server.service';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ResultsComponent } from './results/results.component';
+import { ServerService } from './shared/integration/server.service';
+import { EngineerService } from './shared/services/engineers.service';
+import { JobsService } from './shared/services/jobs.service';
+import { RequestService } from './shared/services/request.service';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';

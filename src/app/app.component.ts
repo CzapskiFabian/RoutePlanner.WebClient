@@ -1,4 +1,4 @@
-import { RequestService } from './../domain/services/request.service';
+import { RequestService } from './shared/services/request.service';
 import { Component } from '@angular/core';
 
 @Component({

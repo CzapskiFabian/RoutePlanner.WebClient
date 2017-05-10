@@ -1,6 +1,7 @@
-import { Marker } from '../../domain/models/marker.model';
-import { EngineerService } from '../../domain/services/engineers.service';
-import { JobsService } from '../../domain/services/jobs.service';
+import { EngineerService } from '../shared/services/engineers.service';
+import { JobsService } from '../shared/services/jobs.service';
+import { Marker } from '../shared/models/marker.model';
+
 import { Component, OnInit } from '@angular/core';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 @Component({

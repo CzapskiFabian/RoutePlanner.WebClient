@@ -1,8 +1,8 @@
-import { ErrorCode, ErrorCodesHandler } from '../../../domain/errors/error-code';
-import { EngineerService } from '../../../domain/services/engineers.service';
-import { Engineer } from '../../../domain/models/engineer.model';
-import { MarkerStatus } from '../../../domain/models/markerStatus.enum';
-import { CustomValidators } from '../../../domain/validators/custom.validators';
+import { ErrorCode, ErrorCodesHandler } from '../../shared/errors/error-code';
+import { Engineer } from '../../shared/models/engineer.model';
+import { MarkerStatus } from '../../shared/models/markerStatus.enum';
+import { EngineerService } from '../../shared/services/engineers.service';
+import { CustomValidators } from '../../shared/validators/custom.validators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
