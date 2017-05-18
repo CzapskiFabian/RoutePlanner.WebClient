@@ -37,7 +37,7 @@ export class EngineersComponent implements OnInit {
   }
 
   onSubmit() {
-    this._engineersService.add(new Engineer(this.form.value['newId'], null, MarkerStatus.Plotting, this.form.value['newLat'], this.form.value['newLng']));
+    this._engineersService.add(new Engineer(this.form.value['newId'], null, MarkerStatus.Plotting, this.form.value['newLat'], this.form.value['newLng'],  this.form.value['newLat'], this.form.value['newLng']));
   }
 
   uniqueId(control: FormControl): { [s: string]: boolean } {

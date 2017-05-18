@@ -1,3 +1,4 @@
+import { MathsHelpers } from './../helpers/mathematical.hepers';
 import { Injectable } from '@angular/core';
 import { ItemListService } from './generic-item-list.service.';
 import { MarkerStatus } from '../models/markerStatus.enum';
@@ -10,9 +11,18 @@ export class JobsService extends ItemListService<Job> {
     constructor() {
         super();
         // Load sample jobs
-        this.items.add("1", new Job("1", "Some address", MarkerStatus.Plotting, 90, 51.529865, -0.128092))
-        this.items.add("2", new Job("2", "Some address", MarkerStatus.Plotting, 90, 51.539865, -0.128092))
-        this.items.add("3", new Job("3", "Some address", MarkerStatus.Plotting, 90, 51.549865, -0.128092))
-        this.items.add("4", new Job("4", "Some address", MarkerStatus.Plotting, 90, 51.559865, -0.128092))
+        for (var i = 0; i < 20; i++) {
+            let currentLatitude:number = MathsHelpers.GetRandomFloat(51, 52, 5);
+            let currentLongitude:number = MathsHelpers.GetRandomFloat(-1, 1, 5);
+
+            this.add(
+                new Job(
+                    i + "",
+                    "Some address",
+                    MarkerStatus.Plotted,
+                    90,
+                    currentLatitude,
+                    currentLongitude));
+        }
     }
 }

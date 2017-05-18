@@ -41,6 +41,15 @@ export class Dictionary<U> implements IDictionary<U> {
         return this._values.slice();
     }
 
+    length(): number{
+        return this._values.length;
+    }
+
+    clear(){
+        this._values.splice(0, this._values.length)
+        this._keys.splice(0, this._keys.length)
+    }
+
     containsKey(key: string) {
         if (typeof this[key] === "undefined") {
             return false;

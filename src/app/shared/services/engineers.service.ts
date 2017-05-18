@@ -1,3 +1,4 @@
+import { MathsHelpers } from './../helpers/mathematical.hepers';
 import { Injectable } from '@angular/core';
 import { ItemListService } from './generic-item-list.service.';
 import { MarkerStatus } from '../models/markerStatus.enum';
@@ -10,9 +11,19 @@ export class EngineerService extends ItemListService<Engineer> {
     constructor() {
         super();
         // Load sample engineers
-        this.items.add("1", new Engineer("1", "Some address", MarkerStatus.Plotting, 51.529865, -0.118092))
-        this.items.add("2", new Engineer("2", "Some address", MarkerStatus.Plotting, 51.539865, -0.118092))
-        this.items.add("3", new Engineer("3", "Some address", MarkerStatus.Plotting, 51.549865, -0.118092))
-        this.items.add("4", new Engineer("4", "Some address", MarkerStatus.Plotting, 51.559865, -0.118092))
+        for(var i = 0; i<3; i++){
+            let currentLatitude:number = MathsHelpers.GetRandomFloat(51, 52, 5);
+            let currentLongitude:number = MathsHelpers.GetRandomFloat(-1, 1, 5);
+
+            this.add(
+                new Engineer(
+                    i+"", 
+                    "Some address", 
+                    MarkerStatus.Plotted, 
+                    currentLatitude,
+                    currentLongitude,
+                    currentLatitude,
+                    currentLongitude));
+        }
     }
 }

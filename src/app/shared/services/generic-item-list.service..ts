@@ -6,13 +6,22 @@ import { Subject } from 'rxjs/Rx';
 export class ItemListService<U extends ModelWithId> {
 
     itemsChanged = new Subject<U[]>();
-    protected items: Dictionary<U> = new Dictionary<U>();
+    private items: Dictionary<U> = new Dictionary<U>();
     
     constructor(){
     }
 
+    clear(){
+        this.items.clear();
+        this.items = new Dictionary<U>();
+        this.EmitItemsChanged();    
+    }
+    get(key: string): U {
+        return this.items[key];
+    }
+
     getAll(): U[] {
-        return this.items.values();
+        return this.items.values().slice();
     }
 
     add(newItem: U) {
@@ -27,6 +36,10 @@ export class ItemListService<U extends ModelWithId> {
 
     containsKey(id: string){
         return this.items.containsKey(id);
+    }
+
+    any(): Boolean{
+        return this.items.length() > 0;
     }
 
     private EmitItemsChanged() {

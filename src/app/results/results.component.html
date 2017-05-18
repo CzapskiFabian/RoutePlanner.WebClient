@@ -1,9 +1,13 @@
-<h3>Solution</h3>
-<hr>
-<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="11">
-  <sebm-google-map-marker *ngFor="let m of markers; let i = index" [latitude]="m.lat" [longitude]="m.lng">
+<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="7">
+  <sebm-google-map-marker *ngFor="let marker of markers; let i = index" [latitude]="marker.latitude" [longitude]="marker.longitude"
+    [label]="marker.name">
     <sebm-google-map-info-window>
-      <strong>{{m.name}}</strong>
+      <strong>{{marker.name}}</strong>
     </sebm-google-map-info-window>
   </sebm-google-map-marker>
+
+  <sebm-google-map-polyline *ngFor="let poly of polylines; let i = index" [strokeWeight]="0.5">
+    <sebm-google-map-polyline-point *ngFor="let point of poly.points; let j = index" [latitude]="point.latitude" [longitude]="point.longitude">
+    </sebm-google-map-polyline-point>
+  </sebm-google-map-polyline>
 </sebm-google-map>

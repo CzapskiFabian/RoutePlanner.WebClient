@@ -20,4 +20,5 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 
   ]
 })
-export class ResultsModule {}
+export class ResultsModule {
+}
