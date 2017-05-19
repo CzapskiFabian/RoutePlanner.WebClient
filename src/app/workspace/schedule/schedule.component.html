@@ -1,0 +1,11 @@
+<div class="container-fluid" *ngFor="let jobSet of jobSets">
+  <hr>
+  <div class="row">
+    <div class="col-sm-12">Engineer: {{jobSet.id}}</div>
+  </div>
+
+  <div class="row" *ngFor="let jobSetItem of jobSet.jobSetItems">
+    <div class="col-sm-5 col-sm-offset-1">Job: {{jobSetItem.job.id}}</div>
+    <div class="col-sm-5">ETA: {{jobSetItem.id}} </div>
+  </div>
+</div>

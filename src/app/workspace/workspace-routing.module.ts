@@ -1,3 +1,4 @@
+import { ScheduleComponent } from './schedule/schedule.component';
 import { EngineersComponent } from './engineers/engineers.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { NgModule } from '@angular/core';
@@ -7,6 +8,7 @@ const workspaceRoutes: Routes = [
   { path: '', redirectTo:'/engineers', pathMatch: 'full'},
   { path: 'engineers', component: EngineersComponent},
   { path: 'jobs', component: JobsComponent},
+  { path: 'schedule', component: ScheduleComponent},
   
 ];
 

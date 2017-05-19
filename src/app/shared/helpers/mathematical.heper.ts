@@ -1,4 +1,4 @@
-export class MathsHelpers {
+export class MathsHelper {
     static GetRandomFloat(min, max, decimals) {
         let zeros = 10 * decimals;
         min = min * zeros;

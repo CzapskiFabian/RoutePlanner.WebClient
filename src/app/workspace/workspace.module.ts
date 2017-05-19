@@ -1,3 +1,4 @@
+import { ScheduleComponent } from './schedule/schedule.component';
 import { WorkspaceRoutingModule } from './workspace-routing.module';
 import { WorkspaceComponent } from './workspace.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +11,7 @@ import { JobsComponent } from './jobs/jobs.component';
     WorkspaceComponent,
     EngineersComponent,
     JobsComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,

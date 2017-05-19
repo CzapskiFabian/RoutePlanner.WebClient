@@ -28,20 +28,25 @@ export class ResultsComponent {
   constructor(private _jobsService: JobsService, private _engineersService: EngineerService, private _greedyAlgorithmService: GreedyAlgorithmService, private _jobSetService: JobSetService) { }
 
   ngOnInit() {
-    this.drawMap();
+    this.runAlgorithm();
+    this.loadMarkers();
+    this.loadPolylines();
 
     this._engineersService.itemsChanged.subscribe(() => {
-      this.drawMap();
+      this.runAlgorithm();
+      this.loadMarkers();
     })
     this._jobsService.itemsChanged.subscribe(() => {
-      this.drawMap();
+      this.runAlgorithm();
+      this.loadMarkers();
+    })
+    this._jobSetService.itemsChanged.subscribe(() => {
+      this.loadPolylines();
     })
   }
 
-  private drawMap() {
+  private runAlgorithm() {
     this._greedyAlgorithmService.run();
-    this.loadMarkers();
-    this.loadPolylines();
   }
 
   private loadPolylines() {
@@ -64,7 +69,7 @@ export class ResultsComponent {
       points.push({ latitude: engineer.latitude, longitude: engineer.longitude })
 
       for (let jobSetItem of job_set.jobSetItems) {
-        points.push({latitude: jobSetItem.job.latitude, longitude: jobSetItem.job.longitude});
+        points.push({ latitude: jobSetItem.job.latitude, longitude: jobSetItem.job.longitude });
       }
 
       // Come back home point
@@ -83,7 +88,7 @@ export class ResultsComponent {
           latitude: job.latitude,
           longitude: job.longitude,
           draggable: false,
-          imagePath:"../../assets/images/redMarker.png"
+          imagePath: "../../assets/images/redMarker.png"
         });
     }
     for (let engineer of this._engineersService.getAll()) {
@@ -93,7 +98,7 @@ export class ResultsComponent {
           latitude: engineer.latitude,
           longitude: engineer.longitude,
           draggable: false,
-          imagePath:"../../assets/images/blueMarker.png"
+          imagePath: "../../assets/images/blueMarker.png"
         });
     }
     console.log(this._jobSetService.getAll());

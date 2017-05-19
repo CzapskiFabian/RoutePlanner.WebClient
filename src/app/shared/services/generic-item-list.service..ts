@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Rx';
 export class ItemListService<U extends ModelWithId> {
 
     itemsChanged = new Subject<U[]>();
-    private items: Dictionary<U> = new Dictionary<U>();
+    protected items: Dictionary<U> = new Dictionary<U>();
     
     constructor(){
     }
@@ -42,7 +42,7 @@ export class ItemListService<U extends ModelWithId> {
         return this.items.length() > 0;
     }
 
-    private EmitItemsChanged() {
+    protected EmitItemsChanged() {
         this.itemsChanged.next(this.items.values());
     }
 }
