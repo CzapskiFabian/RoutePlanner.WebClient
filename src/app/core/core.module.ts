@@ -1,3 +1,4 @@
+import { JobsMatrixService } from '../shared/services/Algorithm/jobs-matrix-service';
 import { JobSetService } from '../shared/services/jobset.service';
 import { HeaderComponent } from '../header/header.component';
 import { ServerService } from '../shared/integration/server.service';
@@ -18,6 +19,6 @@ import { HttpModule } from '@angular/http';
     exports: [
         HeaderComponent
     ],
-    providers: [ServerService, JobsService, EngineerService, GreedyAlgorithmService, JobSetService],
+    providers: [ServerService, JobsService, EngineerService, GreedyAlgorithmService, JobsMatrixService, JobSetService],
 })
 export class CoreModule { }
