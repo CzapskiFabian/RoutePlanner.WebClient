@@ -1,28 +1,29 @@
+import { EngineersComponent } from './engineers/engineers.component';
+import { JobsComponent } from './jobs/jobs.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { WorkspaceRoutingModule } from './workspace-routing.module';
 import { WorkspaceComponent } from './workspace.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { EngineersComponent } from './engineers/engineers.component';
-import { JobsComponent } from './jobs/jobs.component';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     WorkspaceComponent,
     EngineersComponent,
     JobsComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     WorkspaceRoutingModule
   ],
-  exports:[
-      WorkspaceComponent
+  exports: [
+    WorkspaceComponent
   ],
-  providers:[
+  providers: [
 
   ]
 })
-export class WorkspaceModule {}
+export class WorkspaceModule { }

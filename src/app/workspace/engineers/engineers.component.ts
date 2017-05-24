@@ -1,4 +1,3 @@
-import { ErrorCode, ErrorCodesHandler } from '../../shared/errors/error-code';
 import { Engineer } from '../../shared/models/engineer.model';
 import { MarkerStatus } from '../../shared/models/markerStatus.enum';
 import { EngineerService } from '../../shared/services/engineers.service';
@@ -19,7 +18,7 @@ export class EngineersComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'newId': new FormControl(null, [Validators.required, this.uniqueId.bind(this)]),
+      'newName': new FormControl(null, [Validators.required]),
       'newLat': new FormControl(null, [Validators.required, CustomValidators.Latitude]),
       'newLng': new FormControl(null, [Validators.required, CustomValidators.Longitude]),
     });
@@ -37,15 +36,6 @@ export class EngineersComponent implements OnInit {
   }
 
   onSubmit() {
-    this._engineersService.add(new Engineer(this.form.value['newId'], null, MarkerStatus.Plotting, this.form.value['newLat'], this.form.value['newLng'],  this.form.value['newLat'], this.form.value['newLng']));
+    this._engineersService.add(new Engineer(null, MarkerStatus.Plotting, this.form.value['newLat'], this.form.value['newLng'],  this.form.value['newLat'], this.form.value['newLng']));
   }
-
-  uniqueId(control: FormControl): { [s: string]: boolean } {
-        if (!this._engineersService.containsKey(control.value)) {
-            return null;
-        } else {
-            let message: string = ErrorCodesHandler.getErrorMessage(ErrorCode.DuplicateEngineerId);
-            return { message : true };
-        }
-    }
 }

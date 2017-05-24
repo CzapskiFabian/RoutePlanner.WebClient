@@ -1,5 +1,5 @@
 import { JobSet } from '../../shared/models/jobset.model';
-import { JobSetService } from './../../shared/services/jobset.service';
+import { EngineerService } from './../../shared/services/engineers.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,14 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScheduleComponent implements OnInit {
 
-  constructor(private _jobSetService: JobSetService) { }
+  constructor(private _engineerService: EngineerService) { }
   jobSets: JobSet[];
 
   ngOnInit() {
-    this.jobSets = this._jobSetService.getAll();
-    this._jobSetService.itemsChanged.subscribe(()=>{
-      this.jobSets = this._jobSetService.getAll();
+    this.loadJobSets();
+    this._engineerService.itemsChanged.subscribe(() => {
+      this.loadJobSets();
     })
+  }
+
+  private loadJobSets() {
+    this.jobSets = new Array<JobSet>();
+    for (let engineer of this._engineerService.getAll()) {
+      this.jobSets.push(engineer.jobSet);
+    }
   }
 
 }

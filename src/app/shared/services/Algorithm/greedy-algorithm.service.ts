@@ -1,49 +1,47 @@
-import { Dictionary } from '../../helpers/dictionary.type';
-import { LocationPoint } from '../../models/location-point.model';
-import { JobSet } from '../../models/jobset.model';
-import { JobSetItem } from '../../models/jobSetItem.model';
-import { JobSetService } from './../jobset.service';
-import { MathsHelper } from './../../helpers/mathematical.heper';
 import { Engineer } from '../../models/engineer.model';
 import { Job } from '../../models/job.model';
+import { LocationPoint } from '../../models/location-point.model';
 import { EngineerService } from '../engineers.service';
 import { JobsService } from '../jobs.service';
 import { Injectable } from '@angular/core';
+import * as Collections from 'typescript-collections';
+
 
 @Injectable()
 export class GreedyAlgorithmService {
     private availableJobs: Job[];
-    private engineerLocations: Dictionary<LocationPoint>;
+    private engineerLocations: Collections.Dictionary<string, LocationPoint> = new Collections.Dictionary<string, LocationPoint>();
+
     private firstRound: boolean = true;
 
-    constructor(private _engineerService: EngineerService, private _jobsService: JobsService, private _jobSetService: JobSetService) { }
+    constructor(private _engineerService: EngineerService, private _jobsService: JobsService) { }
 
     run() {
         this.cleanBeforeNewRun();
 
         while (this._engineerService.any() && this._jobsService.any() && this.availableJobs.length > 0) {
-            this.allocateClosestJobToEachEngineer();
+            this.allocationRound();
         }
     }
 
     private cleanBeforeNewRun() {
-        this._jobSetService.clear();
+        this._engineerService.clearJobSets();
         this.availableJobs = this._jobsService.getAll();
-        this.engineerLocations = new Dictionary<LocationPoint>();
+        this.engineerLocations.clear();
         this.firstRound = true;
     }
 
-    private allocateClosestJobToEachEngineer() {
+    private allocationRound() {
         for (let engineer of this._engineerService.getAll()) {
             if (this.firstRound) {
-                this.updateEngineerLocation(engineer, {latitude: engineer.homeLatitude, longitude: engineer.homeLongitude});
+                this.updateEngineerLocation(engineer, { latitude: engineer.homeLatitude, longitude: engineer.homeLongitude });
             }
             if (this.availableJobs.length > 0) {
                 let lastLocation = this.getCurrentLocation(engineer);
                 let chosenJobIndex = this.getClosestJob(lastLocation, this.availableJobs);
                 let chosenJob = this.availableJobs[chosenJobIndex];
 
-                this._jobSetService.addJobToEngineersJobSet(engineer, chosenJob);
+                this._engineerService.addJobToEngineersJobSet(engineer, chosenJob);
                 this.updateEngineerLocation(engineer, chosenJob);
                 this.availableJobs.splice(chosenJobIndex, 1);
             }
@@ -58,26 +56,10 @@ export class GreedyAlgorithmService {
         return this.engineerLocations[engineer.id];
     }
     private updateEngineerLocation(engineer: Engineer, lastLocation: LocationPoint) {
-        if(this.engineerLocations[engineer.id]){
-            this.engineerLocations[engineer.id] = lastLocation;
-        }else{
-            this.engineerLocations.add(engineer.id, lastLocation);
-        }
+        this.engineerLocations.setValue(engineer.id, lastLocation);
     }
 
     private getClosestJob(lastLocation: LocationPoint, jobs: Job[]) {
-        let closestJobIndex = 0;
-        for (var i = 0; i < jobs.length; i++) {
-            let distance_to_closest_job = MathsHelper.GetDistance(lastLocation.latitude, lastLocation.longitude, jobs[closestJobIndex].latitude, jobs[closestJobIndex].longitude);
-            let distance_to_this_job = MathsHelper.GetDistance(lastLocation.latitude, lastLocation.longitude, jobs[i].latitude, jobs[i].longitude);
-
-            if (distance_to_closest_job > distance_to_this_job) {
-                closestJobIndex = i;
-            }
-        }
-
-        return closestJobIndex;
+        return 0;
     }
-
-
 }

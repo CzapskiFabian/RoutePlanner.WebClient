@@ -19,7 +19,7 @@ export class JobsComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'newId': new FormControl(null, [Validators.required, this.uniqueId.bind(this)]),
+      'newName': new FormControl(null, [Validators.required, this.uniqueId.bind(this)]),
       'newLat': new FormControl(null, [Validators.required, CustomValidators.Latitude]),
       'newLng': new FormControl(null, [Validators.required, CustomValidators.Longitude]),
       'newDuration': new FormControl(null, [Validators.required]),
@@ -38,7 +38,7 @@ export class JobsComponent implements OnInit {
   }
 
   onSubmit() {
-    this._jobsService.add(new Job(this.form.value['newId'], null, MarkerStatus.Plotting, 90, this.form.value['newLat'], this.form.value['newLng']));
+    this._jobsService.add(new Job(null, MarkerStatus.Plotting, 90, this.form.value['newLat'], this.form.value['newLng']));
   }
 
   uniqueId(control: FormControl): { [s: string]: boolean } {

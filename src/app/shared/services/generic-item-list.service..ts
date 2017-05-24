@@ -1,19 +1,20 @@
 import { ModelWithId } from '../models/model-with-id.model';
 import { MarkerStatus } from '../models/markerStatus.enum';
-import { Dictionary } from '../helpers/dictionary.type';
 import { Engineer } from '../models/engineer.model';
 import { Subject } from 'rxjs/Rx';
+
+import * as Collections from 'typescript-collections';
+
 export class ItemListService<U extends ModelWithId> {
 
     itemsChanged = new Subject<U[]>();
-    protected items: Dictionary<U> = new Dictionary<U>();
+    protected items: Collections.Dictionary<string, U> = new Collections.Dictionary<string, U>();
     
     constructor(){
     }
 
     clear(){
         this.items.clear();
-        this.items = new Dictionary<U>();
         this.EmitItemsChanged();    
     }
     get(key: string): U {
@@ -24,9 +25,12 @@ export class ItemListService<U extends ModelWithId> {
         return this.items.values().slice();
     }
 
-    add(newItem: U) {
-        this.items.add(newItem.id, newItem);
-        this.EmitItemsChanged();        
+    add(newItem: U):string {
+        
+        newItem.id = ""+(this.items.size()+1);
+        this.items.setValue(newItem.id , newItem);
+        this.EmitItemsChanged();  
+        return  newItem.id;     
     }
 
     deleteById(id: string) {
@@ -39,7 +43,7 @@ export class ItemListService<U extends ModelWithId> {
     }
 
     any(): Boolean{
-        return this.items.length() > 0;
+        return this.items.size()>0;
     }
 
     protected EmitItemsChanged() {
