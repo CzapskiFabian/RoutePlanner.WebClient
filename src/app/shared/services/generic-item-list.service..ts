@@ -1,5 +1,4 @@
 import { ModelWithId } from '../models/model-with-id.model';
-import { MarkerStatus } from '../models/markerStatus.enum';
 import { Engineer } from '../models/engineer.model';
 import { Subject } from 'rxjs/Rx';
 
@@ -31,6 +30,10 @@ export class ItemListService<U extends ModelWithId> {
         this.items.setValue(newItem.id , newItem);
         this.EmitItemsChanged();  
         return  newItem.id;     
+    }
+
+    speculateNextId():string{
+        return ""+(this.items.size()+1);
     }
 
     deleteById(id: string) {

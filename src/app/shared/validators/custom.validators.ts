@@ -1,4 +1,5 @@
-import { ErrorCode, ErrorCodesHandler } from './../errors/error-code';
+import { ErrorCode } from '../enums/error-code.enum';
+import {  ErrorCodesHandler } from './../errors/error-code';
 import { FormControl } from '@angular/forms';
 
 export class CustomValidators {

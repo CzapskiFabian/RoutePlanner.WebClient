@@ -1,10 +1,14 @@
-import { ErrorCode, ErrorCodesHandler } from '../../shared/errors/error-code';
-import { MarkerStatus } from '../../shared/models/markerStatus.enum';
+import { ViewChild } from '@angular/core';
+import { GoogleMapsService } from './../../shared/services/google-maps.service';
+import { Observable } from 'rxjs/Rx';
+import { ErrorCode } from '../../shared/enums/error-code.enum';
+import { ErrorCodesHandler } from '../../shared/errors/error-code';
 import { CustomValidators } from '../../shared/validators/custom.validators';
 import { JobsService } from '../../shared/services/jobs.service';
 import { Job } from '../../shared/models/job.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+declare var google: any;
 
 @Component({
   selector: 'app-jobs',
@@ -12,17 +16,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./jobs.component.css']
 })
 export class JobsComponent implements OnInit {
-   jobs: Job[];
+  jobs: Job[];
   form: FormGroup;
+  defaultDuration=90;
+  @ViewChild('newAddress') newAddress;
 
-  constructor(private _jobsService: JobsService) { }
+  constructor(private _jobsService: JobsService, private _googleMapsService: GoogleMapsService) { }
 
   ngOnInit() {
+    this.setAutocomplete();
     this.form = new FormGroup({
-      'newName': new FormControl(null, [Validators.required, this.uniqueId.bind(this)]),
-      'newLat': new FormControl(null, [Validators.required, CustomValidators.Latitude]),
-      'newLng': new FormControl(null, [Validators.required, CustomValidators.Longitude]),
-      'newDuration': new FormControl(null, [Validators.required]),
+      'newId': new FormControl({ value: null, disabled: true }, [Validators.required]),
+      'newAddress': new FormControl(null, [Validators.required], this.placeValidation.bind(this)),
+      'newDuration': new FormControl(90, [Validators.required]),
     });
 
 
@@ -32,21 +38,39 @@ export class JobsComponent implements OnInit {
     });
   }
 
+  setAutocomplete() {
+    let autocomplete = new google.maps.places.Autocomplete(this.newAddress.nativeElement);
+  }
+
   onDeleteJob(index: number) {
     let id = this.jobs[index]['id'];
     this._jobsService.deleteById(id);
   }
 
   onSubmit() {
-    this._jobsService.add(new Job(null, MarkerStatus.Plotting, 90, this.form.value['newLat'], this.form.value['newLng']));
+    this._googleMapsService.geocodeAddress(this.newAddress.nativeElement.value)
+      .then((result: any) => {
+        this._jobsService.add(new Job(this.newAddress.nativeElement.value, this.form.value['newDuration'], result.geometry.location.lat(), result.geometry.location.lng()));
+      })
+      .catch(() => {
+        console.log("Catch error");
+      });
   }
 
-  uniqueId(control: FormControl): { [s: string]: boolean } {
-        if (!this._jobsService.containsKey(control.value)) {
-            return null;
-        } else {
-            let message: string = ErrorCodesHandler.getErrorMessage(ErrorCode.DuplicateEngineerId);
-            return { message : true };
-        }
-    }
+  getNextId() {
+    return this._jobsService.speculateNextId();
+  }
+
+  placeValidation(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      this._googleMapsService.geocodeAddress(control.value)
+        .then(() => {
+          resolve(null);
+        })
+        .catch(() => {
+          resolve({ "invalid": true });
+        })
+    });
+    return promise;
+  }
 }

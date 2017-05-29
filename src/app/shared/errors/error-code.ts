@@ -1,9 +1,5 @@
-export enum ErrorCode {
-    LatitudeOutOfRange,
-    LongitudeOutOfRange,
-    DuplicateEngineerId,
-    DuplicateJobId
-}
+import { ErrorCode } from '../enums/error-code.enum';
+
 
 export class ErrorCodesHandler {
     static getErrorMessage(code: ErrorCode) {
