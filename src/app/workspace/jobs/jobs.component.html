@@ -4,7 +4,7 @@
       <tr>
         <th style="width:20%">Tag</th>
         <th>Address</th>
-        <th  style="width:20%">Duration</th>
+        <!--<th  style="width:20%">Duration</th>-->
         <th></th>
       </tr>
     </thead>
@@ -12,7 +12,7 @@
       <tr>
         <td><input type="text" formControlName="newId" id="newId" class="form-control" [value]="getNextId()"></td>
         <td><input type="text" formControlName="newAddress" id="newAddress" class="form-control" #newAddress></td>
-        <td><input type="number" formControlName="newDuration" id="newDuration" class="form-control" [value]="defaultDuration"></td>
+        <!--<td><input type="number" formControlName="newDuration" id="newDuration" class="form-control" [value]="defaultDuration"></td>-->
         <td>
           <button type="submit" class="btn btn-primary" [disabled]="!form.valid">+</button>
         </td>
@@ -22,7 +22,7 @@
           {{ job.id }}
         </td>
         <td>{{ job.address }}</td>
-        <td>{{ job.duration }}</td>
+        <!--<td>{{ job.duration }}</td>-->
         <td>
           <button type="button" class="btn btn-danger" (click)="onDeleteJob(i)">X</button>
         </td>

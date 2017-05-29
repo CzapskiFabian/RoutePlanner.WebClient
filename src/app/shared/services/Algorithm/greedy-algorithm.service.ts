@@ -49,7 +49,7 @@ export class GreedyAlgorithmService implements IAlgorithm{
     private allocationRound() {
         for (let engineer of this._engineerService.getAll()) {
             if (this.firstRound) {
-                this.updateEngineerLocation(engineer, { lat: engineer.homeLatitude, lng: engineer.homeLongitude });
+                this.updateEngineerLocation(engineer, { lat: engineer.homeLatitude, lng: engineer.homeLongitude, address:null });
             }
             if (this.availableJobs.length > 0) {
                 let lastLocation = this.getCurrentLocation(engineer);

@@ -1,3 +1,4 @@
+import { SidebarBaseComponent } from '../shared/sidebar-base.component';
 import { ViewChild } from '@angular/core';
 import { GoogleMapsService } from './../../shared/services/google-maps.service';
 import { Observable } from 'rxjs/Rx';
@@ -15,22 +16,24 @@ declare var google: any;
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.css']
 })
-export class JobsComponent implements OnInit {
+export class JobsComponent extends SidebarBaseComponent<JobsService> implements OnInit {
   jobs: Job[];
   form: FormGroup;
-  defaultDuration=90;
+  defaultDuration = 90;
   @ViewChild('newAddress') newAddress;
 
-  constructor(private _jobsService: JobsService, private _googleMapsService: GoogleMapsService) { }
+  constructor(private _jobsService: JobsService, protected _googleMapsService: GoogleMapsService) {
+    super(_jobsService, _googleMapsService);
+  }
 
   ngOnInit() {
-    this.setAutocomplete();
     this.form = new FormGroup({
       'newId': new FormControl({ value: null, disabled: true }, [Validators.required]),
-      'newAddress': new FormControl(null, [Validators.required], this.placeValidation.bind(this)),
+      'newAddress': new FormControl(null, [Validators.required]),
       'newDuration': new FormControl(90, [Validators.required]),
     });
 
+    super.setAutocomplete(this.newAddress.nativeElement, this.form.controls['newAddress']);
 
     this.jobs = this._jobsService.getAll();
     this._jobsService.itemsChanged.subscribe(() => {
@@ -38,9 +41,6 @@ export class JobsComponent implements OnInit {
     });
   }
 
-  setAutocomplete() {
-    let autocomplete = new google.maps.places.Autocomplete(this.newAddress.nativeElement);
-  }
 
   onDeleteJob(index: number) {
     let id = this.jobs[index]['id'];
@@ -48,29 +48,12 @@ export class JobsComponent implements OnInit {
   }
 
   onSubmit() {
-    this._googleMapsService.geocodeAddress(this.newAddress.nativeElement.value)
-      .then((result: any) => {
-        this._jobsService.add(new Job(this.newAddress.nativeElement.value, this.form.value['newDuration'], result.geometry.location.lat(), result.geometry.location.lng()));
-      })
-      .catch(() => {
-        console.log("Catch error");
-      });
+    super.add(new Job(this.newAddress.nativeElement.value, 90, null, null));
+
   }
 
   getNextId() {
     return this._jobsService.speculateNextId();
   }
 
-  placeValidation(control: FormControl): Promise<any> | Observable<any> {
-    const promise = new Promise<any>((resolve, reject) => {
-      this._googleMapsService.geocodeAddress(control.value)
-        .then(() => {
-          resolve(null);
-        })
-        .catch(() => {
-          resolve({ "invalid": true });
-        })
-    });
-    return promise;
-  }
 }

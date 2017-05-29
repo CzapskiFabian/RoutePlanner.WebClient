@@ -1,5 +1,6 @@
+import { Observable } from 'rxjs/Observable';
 import { ErrorCode } from '../enums/error-code.enum';
-import {  ErrorCodesHandler } from './../errors/error-code';
+import { ErrorCodesHandler } from './../errors/error-code';
 import { FormControl } from '@angular/forms';
 
 export class CustomValidators {
@@ -20,4 +21,17 @@ export class CustomValidators {
             return { message: true };
         }
     }
+
+    // static placeValidation(control: FormControl): Promise<any> | Observable<any> {
+    //     const promise = new Promise<any>((resolve, reject) => {
+    //         this._googleMapsService.geocodeAddress(control.value)
+    //             .then(() => {
+    //                 resolve(null);
+    //             })
+    //             .catch(() => {
+    //                 resolve({ "invalid": true });
+    //             })
+    //     });
+    //     return promise;
+    // }
 }

@@ -1,3 +1,4 @@
+import { SidebarBaseComponent } from '../shared/sidebar-base.component';
 import { LocationPoint } from '../../shared/models/location-point.model';
 import { Observable, Subject } from 'rxjs/Rx';
 import { ViewChild } from '@angular/core';
@@ -16,59 +17,45 @@ declare var google: any;
   templateUrl: './engineers.component.html',
   styleUrls: ['./engineers.component.css']
 })
-export class EngineersComponent implements OnInit {
+export class EngineersComponent extends SidebarBaseComponent<EngineerService> implements OnInit {
   engineers: Engineer[];
   form: FormGroup;
+  chosenPlace: any;
   @ViewChild('newAddress') newAddress;
 
-  constructor(private _engineersService: EngineerService, private _googleMapsService: GoogleMapsService) { }
+  constructor(protected _engineersService: EngineerService, protected _googleMapsService: GoogleMapsService) {
+    super(_engineersService, _googleMapsService);
+
+  }
 
   ngOnInit() {
-    this.setAutocomplete();
+    
     this.form = new FormGroup({
-      'newId': new FormControl({value: null, disabled:true}, [Validators.required]),
-      'newAddress': new FormControl(null, [Validators.required], this.placeValidation.bind(this)),
+      'newId': new FormControl({ value: null, disabled: true }, [Validators.required]),
+      'newAddress': new FormControl(null, [Validators.required]),
     });
-
+    super.setAutocomplete(this.newAddress.nativeElement, this.form.controls['newAddress']);
+    
     this.engineers = this._engineersService.getAll();
     this._engineersService.itemsChanged.subscribe(() => {
       this.engineers = this._engineersService.getAll();
     });
   }
 
-  setAutocomplete() {
-    let autocomplete = new google.maps.places.Autocomplete(this.newAddress.nativeElement);
-  }
 
   onDeleteEngineer(index: number) {
     let id = this.engineers[index]['id'];
-    this._engineersService.deleteById(id);
+    super.deleteById(id);
   }
 
   onSubmit() {
-    this._googleMapsService.geocodeAddress(this.newAddress.nativeElement.value)
-      .then((result: any) => {
-        this._engineersService.add(new Engineer(this.newAddress.nativeElement.value, result.geometry.location.lat(), result.geometry.location.lng(), result.geometry.location.lat(), result.geometry.location.lng()));
-      })
-      .catch(() => {
-        console.log("Catch error");
-      });
+    super.add(new Engineer(this.newAddress.nativeElement.value, null, null, null, null));
+
   }
 
-  getNextId(){
+  getNextId() {
     return this._engineersService.speculateNextId();
   }
 
-  placeValidation(control: FormControl): Promise<any> | Observable<any> {
-    const promise = new Promise<any>((resolve, reject) => {
-      this._googleMapsService.geocodeAddress(control.value)
-        .then(() => {
-          resolve(null);
-        })
-        .catch(() => {
-          resolve({ "invalid": true });
-        })
-    });
-    return promise;
-  }
+
 }

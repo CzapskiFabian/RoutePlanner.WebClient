@@ -17,6 +17,7 @@ export class WorkspaceComponent implements OnInit {
     // .then((res)=>{
     //   console.log(res);
     // })
+    this._algorithm.solve();
     this._engineerService.itemsChanged.subscribe(()=>{
       this._algorithm.solve();
     });

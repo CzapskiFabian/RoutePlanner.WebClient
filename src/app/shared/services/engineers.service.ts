@@ -18,23 +18,28 @@ export class EngineerService extends ItemListService<Engineer> {
     constructor(private _locationMatrixService: LocationMatrixService, private _googleMapsService: GoogleMapsService) {
         super();
         // Load sample engineers
-        for (var i = 0; i < 1; i++) {
-            let currentLatitude: number = MathsHelper.GetRandomFloat(51, 52, 5);
-            let currentLongitude: number = MathsHelper.GetRandomFloat(-1, 1, 5);
-            this._googleMapsService.geocodeCoordinates({ lat: currentLatitude, lng: currentLongitude })
-                .then((result) => {
-                    this.add(
-                        new Engineer(
-                            result.formatted_address,
-                            currentLatitude,
-                            currentLongitude,
-                            currentLatitude,
-                            currentLongitude));
-                })   
-                .catch((error)=>{
-                    console.log(error);
-                })         
-        }
+        
+        this.add(
+            new Engineer(
+                "Silk St, London EC2Y 8DS, UK",
+                51.5200768,
+                -0.093262999999979,
+                51.5200768,
+                -0.093262999999979));
+        this.add(
+            new Engineer(
+                "Reading, UK",
+                51.4542645,
+                -0.9781302999999753,
+                51.4542645,
+                -0.9781302999999753));
+        this.add(
+            new Engineer(
+                "Enfield, UK",
+                51.65229939999999,
+                -0.08071189999998296,
+                51.65229939999999,
+                -0.08071189999998296));
     }
 
     deleteById(id: string) {
@@ -69,20 +74,20 @@ export class EngineerService extends ItemListService<Engineer> {
         this.jobsetsReady.next();
     }
 
-    getGoogleMapRoutes():GoogleMapsRoute[]{
+    getGoogleMapRoutes(): GoogleMapsRoute[] {
         let routes = new Array<GoogleMapsRoute>();
-        for(let engineer of this.getAll()){
+        for (let engineer of this.getAll()) {
             routes.push(this.getGoogleMapRoute(engineer));
         }
 
         return routes;
     }
 
-    private getGoogleMapRoute(engineer: Engineer):GoogleMapsRoute{
-        let waypoints=new Array<Waypoint>();
+    private getGoogleMapRoute(engineer: Engineer): GoogleMapsRoute {
+        let waypoints = new Array<Waypoint>();
 
-        for(let jobsetitem of engineer.jobSet.jobSetItems){
-            waypoints.push({location: jobsetitem.job.address, stopover:true});
+        for (let jobsetitem of engineer.jobSet.jobSetItems) {
+            waypoints.push({ location: jobsetitem.job.address, stopover: true });
         }
 
         return new GoogleMapsRoute(engineer.address, engineer.address, waypoints);

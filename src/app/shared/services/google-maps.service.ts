@@ -49,6 +49,7 @@ export class GoogleMapsService implements IGoogleMaps {
     }
 
     public drawMap(mapElement: any, routes: GoogleMapsRoute[]): Result<void> {
+        console.log("Draw Map");
         var directionDisplay;
         var directionsService = new google.maps.DirectionsService();
         var map;
@@ -68,6 +69,7 @@ export class GoogleMapsService implements IGoogleMaps {
         }
 
         function requestDirections(start, end, myWaypoints) {
+            console.log("Request Directions");
             directionsService.route({
                 origin: start,
                 destination: end,
@@ -80,11 +82,12 @@ export class GoogleMapsService implements IGoogleMaps {
         for (let route of routes) {
             requestDirections(route.start, route.end, route.waypoints);
         }
-        console.log("koko");
         return new Result(StatusCode.Ok);
     }
 
     geocodeCoordinates(locationPoint: LocationPoint): Promise<any> {
+        console.log("geocodeCoordinates");
+        
         var latlng = new google.maps.LatLng(locationPoint.lat, locationPoint.lng);
         const promise = new Promise<any>((resolve, reject) => {
             var geocoder = new google.maps.Geocoder();
@@ -101,6 +104,8 @@ export class GoogleMapsService implements IGoogleMaps {
     }
 
     geocodeAddress(address: string): Promise<any> {
+        console.log("geocodeAddress");
+        
         const promise = new Promise<any>((resolve, reject) => {
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': address }, function (results, status) {

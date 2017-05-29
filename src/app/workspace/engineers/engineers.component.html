@@ -10,7 +10,7 @@
     <tbody>
       <tr>
         <td><input type="text" formControlName="newId" id="newId" class="form-control" [value]="getNextId()"></td>
-        <td><input type="text"  rows="1" formControlName="newAddress" id="newAddress" class="form-control" #newAddress></td>
+        <td><input type="text"  rows="1" formControlName="newAddress" id="newAddress" class="form-control" ng-change="update()" #newAddress></td>
         <td>
           <button type="submit" class="btn btn-primary" [disabled]="!form.valid">+</button>
         </td>

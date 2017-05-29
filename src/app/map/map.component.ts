@@ -17,7 +17,6 @@ export class MapComponent implements OnInit {
 
     this._engineerService.jobsetsReady.subscribe(() => {
       this._googleMapsService.drawMap(this.mymap.nativeElement, this._engineerService.getGoogleMapRoutes());
-      console.log(this._engineerService.getGoogleMapRoutes());
     })
   }
 
