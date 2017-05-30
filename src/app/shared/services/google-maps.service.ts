@@ -24,24 +24,27 @@ export class GoogleMapsService implements IGoogleMaps {
     constructor() {
 
     }
-    public getDistanceMatrix(locationsA: LocationPoint[], locationsB: LocationPoint[]): Result<DistanceMatrix> {
-        var service = new google.maps.DistanceMatrixService();
-        return service.getDistanceMatrix(
-            {
-                origins: locationsA,
-                destinations: locationsB,
-                travelMode: 'DRIVING',
-                unitSystem: google.maps.UnitSystem.METRIC,
-                avoidHighways: false,
-                avoidTolls: false,
-            }, function (response, status) {
-                if (status !== 'OK') {
-                    alert('Error was: ' + status);
-                } else {
-                    console.log("getDistanceMatrix:");
-                    console.log(response);
-                }
-            });
+    public getDistanceMatrix(locationsA: LocationPoint[], locationsB: LocationPoint[]): Promise<DistanceMatrix> {
+        const promise = new Promise<any>((resolve, reject) => {
+
+            var service = new google.maps.DistanceMatrixService();
+            service.getDistanceMatrix(
+                {
+                    origins: locationsA,
+                    destinations: locationsB,
+                    travelMode: 'DRIVING',
+                    unitSystem: google.maps.UnitSystem.METRIC,
+                    avoidHighways: false,
+                    avoidTolls: false,
+                }, function (response, status) {
+                    if (status !== 'OK') {
+                        reject('Error was: ' + status);
+                    } else {
+                        resolve(response);
+                    }
+                });
+        })
+        return promise;
     }
 
     public getDistance(locationA: LocationPoint, locationB: LocationPoint): Result<number> {
@@ -49,7 +52,6 @@ export class GoogleMapsService implements IGoogleMaps {
     }
 
     public drawMap(mapElement: any, routes: GoogleMapsRoute[]): Result<void> {
-        console.log("Draw Map");
         var directionDisplay;
         var directionsService = new google.maps.DirectionsService();
         var map;
@@ -86,8 +88,6 @@ export class GoogleMapsService implements IGoogleMaps {
     }
 
     geocodeCoordinates(locationPoint: LocationPoint): Promise<any> {
-        console.log("geocodeCoordinates");
-        
         var latlng = new google.maps.LatLng(locationPoint.lat, locationPoint.lng);
         const promise = new Promise<any>((resolve, reject) => {
             var geocoder = new google.maps.Geocoder();
@@ -105,7 +105,7 @@ export class GoogleMapsService implements IGoogleMaps {
 
     geocodeAddress(address: string): Promise<any> {
         console.log("geocodeAddress");
-        
+
         const promise = new Promise<any>((resolve, reject) => {
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'address': address }, function (results, status) {

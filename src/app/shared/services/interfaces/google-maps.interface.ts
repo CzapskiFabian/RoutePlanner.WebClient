@@ -3,7 +3,7 @@ import { GoogleMapsRoute } from '../../models/google-maps-route.model';
 import { LocationPoint } from '../../models/location-point.model';
 import { Result } from '../../models/result.model';
 export interface IGoogleMaps {
-    getDistanceMatrix(locationsA: LocationPoint[], locationsB: LocationPoint[]): Result<DistanceMatrix>;
-    getDistance(locationA: LocationPoint, locationB: LocationPoint): Result<number>;
+    getDistanceMatrix(locationsA: LocationPoint[], locationsB: LocationPoint[]): Promise<DistanceMatrix> ;
+    geocodeCoordinates(locationPoint: LocationPoint): Promise<any>;
     drawMap(mapElement: any, routes: GoogleMapsRoute[]): Result<void>;
 }

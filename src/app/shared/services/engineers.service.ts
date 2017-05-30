@@ -1,7 +1,7 @@
+import { DistanceMatrixService } from './distance-matrix.service';
 import { GoogleMapsRoute } from './../models/google-maps-route.model';
 import { Waypoint } from '../models/google-maps-route.model';
 import { GoogleMapsService } from './google-maps.service';
-import { LocationMatrixService } from './location-matrix.service';
 import { Subject } from 'rxjs/Rx';
 import { Engineer } from '../models/engineer.model';
 import { Job } from '../models/job.model';
@@ -15,7 +15,7 @@ import { Injectable } from '@angular/core';
 export class EngineerService extends ItemListService<Engineer> {
     jobsetsReady = new Subject();
 
-    constructor(private _locationMatrixService: LocationMatrixService, private _googleMapsService: GoogleMapsService) {
+    constructor(private _googleMapsService: GoogleMapsService, private _distanceMatrixService: DistanceMatrixService) {
         super();
         // Load sample engineers
         
@@ -26,34 +26,38 @@ export class EngineerService extends ItemListService<Engineer> {
                 -0.093262999999979,
                 51.5200768,
                 -0.093262999999979));
-        this.add(
-            new Engineer(
-                "Reading, UK",
-                51.4542645,
-                -0.9781302999999753,
-                51.4542645,
-                -0.9781302999999753));
-        this.add(
-            new Engineer(
-                "Enfield, UK",
-                51.65229939999999,
-                -0.08071189999998296,
-                51.65229939999999,
-                -0.08071189999998296));
+        // this.add(
+        //     new Engineer(
+        //         "Reading, UK",
+        //         51.4542645,
+        //         -0.9781302999999753,
+        //         51.4542645,
+        //         -0.9781302999999753));
+        // this.add(
+        //     new Engineer(
+        //         "Enfield, UK",
+        //         51.65229939999999,
+        //         -0.08071189999998296,
+        //         51.65229939999999,
+        //         -0.08071189999998296));
     }
 
-    deleteById(id: string) {
-        let object = super.get(id);
-        super.deleteById(id);
-        // this._locationMatrixService.removeLocation({ lat: object.lat, lng: object.lng });
-        // this._locationMatrixService.addLocation({ lat: object.homeLatitude, lng: object.homeLongitude });
+    add(newItem: Engineer){
+        
+        let id = super.add(newItem);
+        newItem.homeLatitude = newItem.lat;
+        newItem.homeLongitude = newItem.lng;
+
+        this._distanceMatrixService.addLocation({lat: newItem.lat, lng: newItem.lng, address:newItem.address});
+        this._distanceMatrixService.addLocation({lat: newItem.homeLatitude, lng: newItem.homeLongitude, address:null});
+        return id;
     }
 
-    add(newItem: Engineer): string {
-        let result = super.add(newItem);
-        // this._locationMatrixService.addLocation({ lat: newItem.lat, lng: newItem.lng });
-        // this._locationMatrixService.addLocation({ lat: newItem.homeLatitude, lng: newItem.homeLongitude });
-        return result;
+    deleteById(id: string){
+        let deletedItem = this.items.getValue(id);
+        this._distanceMatrixService.removeLocation({lat: deletedItem.lat, lng: deletedItem.lng, address:deletedItem.address})
+        this._distanceMatrixService.removeLocation({lat: deletedItem.homeLatitude, lng: deletedItem.homeLongitude, address:deletedItem.address})
+        super.deleteById(id);        
     }
 
     addJobToEngineersJobSet(engineer: Engineer, job: Job) {

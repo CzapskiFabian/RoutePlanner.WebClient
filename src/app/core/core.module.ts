@@ -1,5 +1,5 @@
+import { DistanceMatrixService } from '../shared/services/distance-matrix.service';
 import { GoogleMapsService } from '../shared/services/google-maps.service';
-import { LocationMatrixService } from '../shared/services/location-matrix.service';
 import { HeaderComponent } from '../header/header.component';
 import { MapComponent } from '../map/map.component';
 import { GreedyAlgorithmService } from '../shared/services/Algorithm/greedy-algorithm.service';
@@ -25,6 +25,6 @@ import { HttpModule } from '@angular/http';
         MapComponent,
         
     ],
-    providers: [JobsService, EngineerService, GreedyAlgorithmService, GoogleMapsService, LocationMatrixService],
+    providers: [JobsService, EngineerService, GreedyAlgorithmService, GoogleMapsService, DistanceMatrixService],
 })
 export class CoreModule { }

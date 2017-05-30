@@ -1,3 +1,5 @@
+import { DistanceMatrix } from '../shared/models/distance-matrix.model';
+import { LocationPoint } from '../shared/models/location-point.model';
 import { GoogleMapsService } from './../shared/services/google-maps.service';
 import { GreedyAlgorithmService } from './../shared/services/Algorithm/greedy-algorithm.service';
 import { JobsService } from './../shared/services/jobs.service';
@@ -11,20 +13,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkspaceComponent implements OnInit {
 
-  constructor(private _engineerService:EngineerService, private _jobService:JobsService, private _algorithm:GreedyAlgorithmService, private _g: GoogleMapsService) { }
+  constructor(private _engineerService: EngineerService, private _jobService: JobsService, private _algorithm: GreedyAlgorithmService, private _g: GoogleMapsService) { }
+  matrices: DistanceMatrix[] = new Array<DistanceMatrix>();
   ngOnInit() {
-    // this._g.geocodeCoordinates({lat:51.9876, lng:0.8878})
-    // .then((res)=>{
-    //   console.log(res);
-    // })
+
+    // let origins: LocationPoint[] = [{ lat: 51.0000, lng: 0.000, address: null }, { lat: 52.0000, lng: 0.000, address: null }, { lat: 53.0000, lng: 0.000, address: null }];
+    // var destinations: LocationPoint[] = [{ lat: 51.0000, lng: 1.000, address: null }, { lat: 52.0000, lng: 1.000, address: null }];
+
+    // this._g.getDistanceMatrix(origins, destinations).then((response) => {
+    //   this.matrices.push(response);
+    //   console.log(this.matrices);
+    // });
     this._algorithm.solve();
-    this._engineerService.itemsChanged.subscribe(()=>{
-      this._algorithm.solve();
+    this._engineerService.itemsChanged.subscribe(() => {
+      setTimeout(() => {
+        this._algorithm.solve();
+      }, 1000);
     });
-    this._jobService.itemsChanged.subscribe(()=>{
-      this._algorithm.solve();
+    this._jobService.itemsChanged.subscribe(() => {
+      setTimeout(() => {
+        this._algorithm.solve();
+      }, 1000);
     });
-   
+
   }
 
 
