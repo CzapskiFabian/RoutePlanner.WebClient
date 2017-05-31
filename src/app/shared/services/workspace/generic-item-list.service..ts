@@ -1,5 +1,5 @@
-import { ModelWithId } from '../models/model-with-id.model';
-import { Engineer } from '../models/engineer.model';
+import { ModelWithId } from '../../models/model-with-id.model';
+import { Engineer } from '../../models/engineer.model';
 import { Subject } from 'rxjs/Rx';
 
 import * as Collections from 'typescript-collections';

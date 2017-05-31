@@ -1,14 +1,11 @@
-import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
-import { DistanceMatrix } from '../models/distance-matrix.model';
-import { IDistanceMatrixService } from './interfaces/distance-materix.interface';
+import { DistanceMatrix } from '../../models/distance-matrix.model';
+import { LocationPoint } from '../../models/location-point.model';
+import { GoogleMapsService } from '../map/google-maps.service';
 import { Injectable } from '@angular/core';
-import { GoogleMapsService } from './google-maps.service';
-import { Result } from '../models/result.model';
-import { LocationPoint } from '../models/location-point.model';
 import * as Collections from 'typescript-collections';
 
 @Injectable()
-export class DistanceMatrixService implements IDistanceMatrixService {
+export class DistanceMatrixService  {
     private knownLocations: Collections.Dictionary<string, LocationPoint> = new Collections.Dictionary<string, LocationPoint>();
     private distances: Collections.Dictionary<string, number>
     = new Collections.Dictionary<string, number>();
@@ -20,7 +17,6 @@ export class DistanceMatrixService implements IDistanceMatrixService {
     }
 
     public addLocation(locationPoint: LocationPoint) {
-        console.log(locationPoint);
         if (!this.knownLocations.containsKey(this.stringifyLocation(locationPoint))) {
             if (this.knownLocations.values().length > 0) {
                 this._googleMapsService.getDistanceMatrix([locationPoint], this.knownLocations.values().slice())

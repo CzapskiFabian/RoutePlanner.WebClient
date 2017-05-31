@@ -68,3 +68,6 @@ body {
     padding:10px;
 }
 
+
+.modal-backdrop {background: none;}
+

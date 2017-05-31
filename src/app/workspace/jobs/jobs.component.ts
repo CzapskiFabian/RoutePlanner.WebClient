@@ -1,11 +1,10 @@
+import { GoogleMapsService } from '../../shared/services/map/google-maps.service';
+import { JobsService } from '../../shared/services/workspace/jobs.service';
 import { SidebarBaseComponent } from '../shared/sidebar-base.component';
 import { ViewChild } from '@angular/core';
-import { GoogleMapsService } from './../../shared/services/google-maps.service';
 import { Observable } from 'rxjs/Rx';
 import { ErrorCode } from '../../shared/enums/error-code.enum';
-import { ErrorCodesHandler } from '../../shared/errors/error-code';
 import { CustomValidators } from '../../shared/validators/custom.validators';
-import { JobsService } from '../../shared/services/jobs.service';
 import { Job } from '../../shared/models/job.model';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';

@@ -1,12 +1,11 @@
-import { StatusCode } from '../../enums/status-code.enum';
+import { DistanceMatrixService } from '../workspace/distance-matrix.service';
 import { Engineer } from '../../models/engineer.model';
 import { Job } from '../../models/job.model';
 import { LocationPoint } from '../../models/location-point.model';
 import { Result } from '../../models/result.model';
-import { EngineerService } from '../engineers.service';
-import { IAlgorithm } from '../interfaces/algorithm.interface';
-import { JobsService } from '../jobs.service';
-import { DistanceMatrixService } from './../distance-matrix.service';
+import { EngineerService } from '../workspace/engineers.service';
+import { JobsService } from '../workspace/jobs.service';
+import { IAlgorithm } from './algorithm.interface';
 import { Injectable } from '@angular/core';
 import * as Collections from 'typescript-collections';
 
@@ -23,7 +22,7 @@ export class GreedyAlgorithmService implements IAlgorithm {
 
     public solve(): Result<void> {
         this.run();
-        return new Result(StatusCode.Ok);
+        return new Result();
     }
 
     private run() {
@@ -46,7 +45,6 @@ export class GreedyAlgorithmService implements IAlgorithm {
         for (let job of this._jobsService.getAll()) {
             locations.push({ lat: job.lat, lng: job.lng, address: job.address });
         }
-        console.log(locations);
         return locations;
     }
 
@@ -90,22 +88,22 @@ export class GreedyAlgorithmService implements IAlgorithm {
         let first = true;
         let closestId = 0;
         let bestDistance = 0;
-        // for (let thisIndex = 0; thisIndex < jobs.length; thisIndex++) {
-        //     if (first) {
-        //         closestId = 0;
-        //         bestDistance = this._distanceMatrixService.getDistance(lastLocation, { lat: jobs[thisIndex].lat, lng: jobs[thisIndex].lng, address: jobs[thisIndex].address });
-        //         first = false;
+        for (let thisIndex = 0; thisIndex < jobs.length; thisIndex++) {
+            if (first) {
+                closestId = 0;
+                bestDistance = this._distanceMatrixService.getDistance(lastLocation, { lat: jobs[thisIndex].lat, lng: jobs[thisIndex].lng, address: jobs[thisIndex].address });
+                first = false;
 
-        //     } else {
-        //         let thisDistance = this._distanceMatrixService.getDistance(lastLocation, { lat: jobs[thisIndex].lat, lng: jobs[thisIndex].lng, address: jobs[thisIndex].address });
+            } else {
+                let thisDistance = this._distanceMatrixService.getDistance(lastLocation, { lat: jobs[thisIndex].lat, lng: jobs[thisIndex].lng, address: jobs[thisIndex].address });
 
-        //         if (thisDistance < bestDistance) {
-        //             closestId = thisIndex;
-        //             bestDistance = thisDistance;
-        //         }
-        //     }
+                if (thisDistance < bestDistance) {
+                    closestId = thisIndex;
+                    bestDistance = thisDistance;
+                }
+            }
 
-        // }
+        }
         return closestId;
     }
 

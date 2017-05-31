@@ -1,5 +1,5 @@
-import { EngineerService } from '../shared/services/engineers.service';
-import { GoogleMapsService } from '../shared/services/google-maps.service';
+import { EngineerService } from '../shared/services/workspace/engineers.service';
+import { GoogleMapsService } from '../shared/services/map/google-maps.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 declare var google: any;
 

@@ -1,5 +1,5 @@
+import { EngineerService } from '../../shared/services/workspace/engineers.service';
 import { JobSet } from '../../shared/models/jobset.model';
-import { EngineerService } from './../../shared/services/engineers.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

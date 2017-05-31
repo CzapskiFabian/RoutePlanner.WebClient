@@ -1,11 +1,8 @@
-import { SidebarBaseComponent } from '../shared/sidebar-base.component';
-import { LocationPoint } from '../../shared/models/location-point.model';
-import { Observable, Subject } from 'rxjs/Rx';
-import { ViewChild } from '@angular/core';
-import { GoogleMapsService } from '../../shared/services/google-maps.service';
 import { Engineer } from '../../shared/models/engineer.model';
-import { EngineerService } from '../../shared/services/engineers.service';
-import { CustomValidators } from '../../shared/validators/custom.validators';
+import { GoogleMapsService } from '../../shared/services/map/google-maps.service';
+import { EngineerService } from '../../shared/services/workspace/engineers.service';
+import { SidebarBaseComponent } from '../shared/sidebar-base.component';
+import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 

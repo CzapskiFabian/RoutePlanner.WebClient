@@ -1,13 +1,10 @@
-import { GoogleMapsRoute } from '../models/google-maps-route.model';
-import { StatusCode } from '../enums/status-code.enum';
-import { DistanceMatrix } from '../models/distance-matrix.model';
-import { Result } from '../models/result.model';
-import { IGoogleMaps } from './interfaces/google-maps.interface';
-import { LocationPoint } from './../models/location-point.model';
-import { NgZone } from '@angular/core';
+import { StatusCode } from '../../enums/status-code.enum';
+import { DistanceMatrix } from '../../models/distance-matrix.model';
+import { GoogleMapsRoute } from '../../models/google-maps-route.model';
+import { LocationPoint } from '../../models/location-point.model';
+import { Result } from '../../models/result.model';
+import { IGoogleMaps } from './google-maps.interface';
 import { Injectable } from '@angular/core';
-import { MapsAPILoader } from 'angular2-google-maps/core';
-import { Observable } from 'rxjs/Rx';
 import * as Collections from 'typescript-collections';
 
 
@@ -71,7 +68,6 @@ export class GoogleMapsService implements IGoogleMaps {
         }
 
         function requestDirections(start, end, myWaypoints) {
-            console.log("Request Directions");
             directionsService.route({
                 origin: start,
                 destination: end,

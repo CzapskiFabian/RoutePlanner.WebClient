@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs/Rx';
 import { LocationPoint } from '../../shared/models/location-point.model';
-import { ItemListService } from '../../shared/services/generic-item-list.service.';
-import { GoogleMapsService } from '../../shared/services/google-maps.service';
+import { ItemListService } from '../../shared/services/workspace/generic-item-list.service.';
+import { GoogleMapsService } from '../../shared/services/map/google-maps.service';
 import { FormControl } from '@angular/forms';
 declare var google: any;
 

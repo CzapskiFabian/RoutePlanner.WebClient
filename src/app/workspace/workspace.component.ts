@@ -1,9 +1,8 @@
 import { DistanceMatrix } from '../shared/models/distance-matrix.model';
-import { LocationPoint } from '../shared/models/location-point.model';
-import { GoogleMapsService } from './../shared/services/google-maps.service';
+import { GoogleMapsService } from '../shared/services/map/google-maps.service';
+import { EngineerService } from '../shared/services/workspace/engineers.service';
+import { JobsService } from '../shared/services/workspace/jobs.service';
 import { GreedyAlgorithmService } from './../shared/services/Algorithm/greedy-algorithm.service';
-import { JobsService } from './../shared/services/jobs.service';
-import { EngineerService } from './../shared/services/engineers.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -25,6 +24,7 @@ export class WorkspaceComponent implements OnInit {
     //   console.log(this.matrices);
     // });
     this._algorithm.solve();
+    
     this._engineerService.itemsChanged.subscribe(() => {
       setTimeout(() => {
         this._algorithm.solve();
