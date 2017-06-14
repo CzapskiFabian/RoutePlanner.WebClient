@@ -23,22 +23,14 @@ export class WorkspaceComponent implements OnInit {
     //   this.matrices.push(response);
     //   console.log(this.matrices);
     // });
-    this._algorithm.solve();
-    
+
     this._engineerService.itemsChanged.subscribe(() => {
-      setTimeout(() => {
-        this._algorithm.solve();
-      }, 1000);
+      this._algorithm.solve();
     });
     this._jobService.itemsChanged.subscribe(() => {
-      setTimeout(() => {
-        this._algorithm.solve();
-      }, 1000);
+      this._algorithm.solve();
     });
 
+
   }
-
-
-
-
 }

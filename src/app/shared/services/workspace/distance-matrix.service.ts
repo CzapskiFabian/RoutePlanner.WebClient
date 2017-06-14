@@ -1,3 +1,4 @@
+import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
 import { DistanceMatrix } from '../../models/distance-matrix.model';
 import { LocationPoint } from '../../models/location-point.model';
 import { GoogleMapsService } from '../map/google-maps.service';
@@ -5,7 +6,7 @@ import { Injectable } from '@angular/core';
 import * as Collections from 'typescript-collections';
 
 @Injectable()
-export class DistanceMatrixService  {
+export class DistanceMatrixService {
     private knownLocations: Collections.Dictionary<string, LocationPoint> = new Collections.Dictionary<string, LocationPoint>();
     private distances: Collections.Dictionary<string, number>
     = new Collections.Dictionary<string, number>();
@@ -16,19 +17,24 @@ export class DistanceMatrixService  {
         return this.distances.getValue(this.getDistanceKey(locationA, locationB));
     }
 
-    public addLocation(locationPoint: LocationPoint) {
-        if (!this.knownLocations.containsKey(this.stringifyLocation(locationPoint))) {
-            if (this.knownLocations.values().length > 0) {
-                this._googleMapsService.getDistanceMatrix([locationPoint], this.knownLocations.values().slice())
-                    .then((matrix) => {
-                        this.processMatrix(matrix, locationPoint, this.knownLocations.values().slice());
-                    })
-                    .catch((error)=>{
-                        console.log(error);
-                    });
+    public addLocation(locationPoint: LocationPoint):Promise<void> {
+        const promise = new Promise<any>((resolve, reject) => {
+            if (!this.knownLocations.containsKey(this.stringifyLocation(locationPoint))) {
+                if (this.knownLocations.values().length > 0) {
+                    this._googleMapsService.getDistanceMatrix([locationPoint], this.knownLocations.values().slice())
+                        .then((matrix) => {
+                            this.processMatrix(matrix, locationPoint, this.knownLocations.values().slice());
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
+                }
+                this.knownLocations.setValue(this.stringifyLocation(locationPoint), locationPoint);
             }
-            this.knownLocations.setValue(this.stringifyLocation(locationPoint), locationPoint);
-        }
+            resolve();
+        });
+
+        return promise;
     }
 
     // think about race condition

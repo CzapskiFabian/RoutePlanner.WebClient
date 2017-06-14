@@ -1,3 +1,4 @@
+import { MapModule } from './map/map.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { WorkspaceModule } from './workspace/workspace.module';
@@ -15,6 +16,7 @@ import { BrowserModule } from '@angular/platform-browser';
     BrowserModule,
     FormsModule,
     WorkspaceModule,
+    MapModule
   ],
   exports:[
     

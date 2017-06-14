@@ -10,11 +10,11 @@ export class JobsService extends ItemListService<Job> {
     constructor(private _googleMapsService: GoogleMapsService, private _distanceMatrixService: DistanceMatrixService) {
         super();
         // Load sample jobs
-        // this.add(new Job(
-        //     "Luton, UK",
-        //     90,
-        //     51.8786707,
-        //     -0.4200255000000652));
+        this.add(new Job(
+            "Luton, UK",
+            90,
+            51.8786707,
+            -0.4200255000000652), false);
         //  this.add(new Job(
         //                 "Harlow, UK",
         //                 90,
@@ -73,18 +73,25 @@ export class JobsService extends ItemListService<Job> {
 
     }
 
-    add(newItem: Job) {
-
-        let id = super.add(newItem);
-        this._distanceMatrixService.addLocation({ lat: newItem.lat, lng: newItem.lng, address: newItem.address });
-        return id;
-
+    add(newItem: Job, emitItemsChanged=true): Promise<string> {
+        const promise = new Promise<any>((resolve, reject) => {
+            this._distanceMatrixService.addLocation({ lat: newItem.lat, lng: newItem.lng, address: newItem.address })
+                .then(() => {
+                    let id = super.push(newItem, emitItemsChanged);
+                    resolve(id);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    reject(error);
+                })
+        });
+        return promise;
     }
 
     deleteById(id: string) {
         let deletedItem = this.items.getValue(id);
         this._distanceMatrixService.removeLocation({ lat: deletedItem.lat, lng: deletedItem.lng, address: deletedItem.address })
-        super.deleteById(id);
+        super.remove(id);
     }
 
 }

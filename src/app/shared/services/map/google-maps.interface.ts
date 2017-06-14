@@ -5,5 +5,4 @@ import { Result } from '../../models/result.model';
 export interface IGoogleMaps {
     getDistanceMatrix(locationsA: LocationPoint[], locationsB: LocationPoint[]): Promise<DistanceMatrix> ;
     geocodeCoordinates(locationPoint: LocationPoint): Promise<any>;
-    drawMap(mapElement: any, routes: GoogleMapsRoute[]): Result<void>;
 }

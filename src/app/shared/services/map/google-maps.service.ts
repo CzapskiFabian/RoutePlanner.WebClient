@@ -47,42 +47,7 @@ export class GoogleMapsService implements IGoogleMaps {
     public getDistance(locationA: LocationPoint, locationB: LocationPoint): Result<number> {
         throw new Error('Not implemented yet.');
     }
-
-    public drawMap(mapElement: any, routes: GoogleMapsRoute[]): Result<void> {
-        var directionDisplay;
-        var directionsService = new google.maps.DirectionsService();
-        var map;
-
-        var start = new google.maps.LatLng(51.47482547819850, -0.37739553384529);
-        var myOptions = {
-            zoom: 7,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            center: start
-        }
-        map = new google.maps.Map(mapElement, myOptions);
-
-        function renderDirections(result) {
-            var directionsRenderer = new google.maps.DirectionsRenderer();
-            directionsRenderer.setMap(map);
-            directionsRenderer.setDirections(result);
-        }
-
-        function requestDirections(start, end, myWaypoints) {
-            directionsService.route({
-                origin: start,
-                destination: end,
-                waypoints: myWaypoints,
-                travelMode: google.maps.DirectionsTravelMode.DRIVING
-            }, function (result) {
-                renderDirections(result);
-            });
-        }
-        for (let route of routes) {
-            requestDirections(route.start, route.end, route.waypoints);
-        }
-        return new Result(StatusCode.Ok);
-    }
-
+    
     geocodeCoordinates(locationPoint: LocationPoint): Promise<any> {
         var latlng = new google.maps.LatLng(locationPoint.lat, locationPoint.lng);
         const promise = new Promise<any>((resolve, reject) => {

@@ -32,7 +32,7 @@ export class GreedyAlgorithmService implements IAlgorithm {
             this.allocationRound();
         }
 
-        this._engineerService.FireJobsetsReady();
+        this._engineerService.fireJobSetsChanged();
     }
 
     private getAllLocations(): LocationPoint[] {
@@ -55,15 +55,10 @@ export class GreedyAlgorithmService implements IAlgorithm {
         this.firstRound = true;
     }
 
-    private loadDistanceMatrix() {
-        // get all locations
-    }
-
     private allocationRound() {
         for (let engineer of this._engineerService.getAll()) {
             if (this.firstRound) {
                 this.updateEngineerLocation(engineer, { lat: engineer.lat, lng: engineer.lng, address: null });
-                this.firstRound = false;                
             }
             if (this.availableJobs.length > 0) {
                 let lastLocation = this.getCurrentLocation(engineer);
@@ -75,6 +70,7 @@ export class GreedyAlgorithmService implements IAlgorithm {
                 this.availableJobs.splice(chosenJobIndex, 1);
             }
         }
+        this.firstRound = false;
     }
 
     private getCurrentLocation(engineer: Engineer): LocationPoint {

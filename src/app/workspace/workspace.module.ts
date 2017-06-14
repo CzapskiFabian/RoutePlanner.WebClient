@@ -11,8 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     WorkspaceComponent,
     EngineersComponent,
     JobsComponent,
-    ScheduleComponent,
-    
+    ScheduleComponent,    
   ],
   imports: [
     CommonModule,

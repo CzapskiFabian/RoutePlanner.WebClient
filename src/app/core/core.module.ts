@@ -15,17 +15,13 @@ import { HttpModule } from '@angular/http';
 @NgModule({
     declarations: [
         HeaderComponent,
-        MapComponent,
     ],
     imports: [
         CommonModule,
         HttpModule,
-
     ],
     exports: [
         HeaderComponent,
-        MapComponent,
-
     ],
     providers: [JobsService, EngineerService, GreedyAlgorithmService, GoogleMapsService, DistanceMatrixService, LoggingService, ExceptionHandler],
 

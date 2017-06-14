@@ -1,1 +1,24 @@
-<div id="map" #mymap ></div>
+<div class="map-wrapper">
+    <div class="pac-card" id="pac-card" #pacCard>
+        <div>
+            <div id="title">
+                Add Jobs and Engineers here
+            </div>
+            <div id="type-selector" class="pac-controls">
+                <span *ngFor="let entry of entries">
+                    <input type="radio" name="type" [checked]="selectedEntry === entry.id" [value]="entry.id" (change)="onSelectionChange(entry)">
+                    <label for="changetype-address">{{ entry.description }}</label>
+                </span>
+
+            </div>
+        </div>
+        <div id="pac-container">
+            <input id="pac-input" type="text" placeholder="Enter a location" #newAddress>
+        </div>
+        <div class="pac-controls">
+            <button class="button default" (click)="onAddClicked()">Add</button>
+        </div>
+
+    </div>
+    <div id="map" #mymap></div>
+</div>

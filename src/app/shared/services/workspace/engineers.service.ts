@@ -17,14 +17,14 @@ export class EngineerService extends ItemListService<Engineer> {
     constructor(private _googleMapsService: GoogleMapsService, private _distanceMatrixService: DistanceMatrixService) {
         super();
         // Load sample engineers
-        
+
         this.add(
             new Engineer(
                 "Silk St, London EC2Y 8DS, UK",
                 51.5200768,
                 -0.093262999999979,
                 51.5200768,
-                -0.093262999999979));
+                -0.093262999999979), false);
         // this.add(
         //     new Engineer(
         //         "Reading, UK",
@@ -41,22 +41,25 @@ export class EngineerService extends ItemListService<Engineer> {
         //         -0.08071189999998296));
     }
 
-    add(newItem: Engineer){
-        
-        let id = super.add(newItem);
-        newItem.homeLatitude = newItem.lat;
-        newItem.homeLongitude = newItem.lng;
-
-        this._distanceMatrixService.addLocation({lat: newItem.lat, lng: newItem.lng, address:newItem.address});
-        this._distanceMatrixService.addLocation({lat: newItem.homeLatitude, lng: newItem.homeLongitude, address:null});
-        return id;
+    add(newItem: Engineer, emitItemsChanged=true): Promise<string> {
+        const promise = new Promise<any>((resolve, reject) => {
+            this._distanceMatrixService.addLocation({ lat: newItem.lat, lng: newItem.lng, address: newItem.address })
+                .then(() => {
+                    let id = super.push(newItem, emitItemsChanged);
+                    resolve(id);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    reject(error);
+                })
+        });
+        return promise;
     }
 
-    deleteById(id: string){
+    deleteById(id: string) {
         let deletedItem = this.items.getValue(id);
-        this._distanceMatrixService.removeLocation({lat: deletedItem.lat, lng: deletedItem.lng, address:deletedItem.address})
-        this._distanceMatrixService.removeLocation({lat: deletedItem.homeLatitude, lng: deletedItem.homeLongitude, address:deletedItem.address})
-        super.deleteById(id);        
+        this._distanceMatrixService.removeLocation({ lat: deletedItem.lat, lng: deletedItem.lng, address: deletedItem.address })
+        super.remove(id);
     }
 
     addJobToEngineersJobSet(engineer: Engineer, job: Job) {
@@ -73,7 +76,7 @@ export class EngineerService extends ItemListService<Engineer> {
         }
     }
 
-    FireJobsetsReady() {
+    fireJobSetsChanged() {
         this.jobsetsReady.next();
     }
 
